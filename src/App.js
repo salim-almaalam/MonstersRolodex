@@ -1,4 +1,4 @@
-import logo from "./logo.svg";
+// import logo from "./logo.svg";
 import "./App.css";
 import { Component } from "react";
 import CardList from "./components/card-list/card-list.component";
@@ -49,6 +49,7 @@ class App extends Component {
 
     return (
       <div className='App'>
+        <h1 className='app-title'>Monsters Robolex </h1>
         <SearchBox
           onChangeHandler={onSearchChange}
           placeholder='Type Some Robo..'
