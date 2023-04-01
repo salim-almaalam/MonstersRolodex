@@ -1,6 +1,8 @@
 import logo from "./logo.svg";
 import "./App.css";
 import { Component } from "react";
+import CardList from "./components/card-list/card-list.component";
+import SearchBox from "./components/search-box/search-box.component";
 
 //function App() {
 class App extends Component {
@@ -9,6 +11,7 @@ class App extends Component {
 
     this.state = {
       monsters: [], //https://jsonplaceholder.typicode.com/users
+      search: "",
     };
     // this.state = {
     //   name: { firstName: "Salim", lastName: " Khalid" },
@@ -26,30 +29,32 @@ class App extends Component {
         })
       );
   }
-
+  onSearchChange = (event) => {
+    console.log(event.target.value);
+    const search = event.target.value.toLowerCase();
+    // const filteredMonsters = this.state.monsters.filter((monster) => {
+    //   return monster.name.toLowerCase().includes(search);
+    // });
+    this.setState(() => {
+      return { search: search };
+    });
+  };
   render() {
+    const { monsters, search } = this.state;
+    const { onSearchChange } = this;
+
+    const filteredMonsters = monsters.filter((monster) => {
+      return monster.name.toLowerCase().includes(search);
+    });
+
     return (
       <div className='App'>
-        <input
-          className='Serach'
-          type='search'
-          placeholder='empty'
-          onChange={(event) => {
-            console.log(event.target.value);
-            const search = event.target.value.toLowerCase();
-            const filteredMonsters = this.state.monsters.filter((monster) => {
-              return monster.name.toLowerCase().includes(search);
-            });
-            this.setState(() => {
-              return { monsters: filteredMonsters };
-            });
-          }}
+        <SearchBox
+          onChangeHandler={onSearchChange}
+          placeholder='Type Some Robo..'
         />
         <header className='App-header'>
-          <img src={logo} className='App-logo' alt='logo' />
-          {this.state.monsters.map((monster) => {
-            return <h1 key={monster.id}>{monster.name}</h1>;
-          })}
+          <CardList monsters={filteredMonsters} />
         </header>
       </div>
     );
